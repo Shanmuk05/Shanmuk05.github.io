@@ -1,21 +1,212 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atchutha Sai Kiran — Analyst with AI</title>
+  <meta name="description" content="Portfolio of Atchutha Sai Kiran — Business & Data Analyst with AI. Python, SQL, Machine Learning, NLP, Power BI. A dive from the sky to the forest floor through my work." />
+  <meta property="og:title" content="Atchutha Sai Kiran — Analyst with AI" />
+  <meta property="og:description" content="Take the eagle's descent through my projects in data analytics, machine learning and AI." />
+  <meta property="og:image" content="https://shanmuk05.github.io/assets/sai-kiran.jpg" />
+  <meta name="theme-color" content="#1b2a4a" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦅</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Atchutha Sai kiran</h1>
-    <p>Data Scientist</p>
 
-    <h2>Projects</h2>
+  <!-- ============ THE WORLD (fixed scenery, driven by scroll) ============ -->
+  <div id="world" aria-hidden="true">
+    <div class="sky" id="sky"></div>
+    <div class="stars" id="stars"></div>
+    <div class="sun" id="sun"><div class="sun-core"></div></div>
+    <div class="layer drift-clouds" id="driftClouds"></div>
+    <div class="layer birds" id="birds"></div>
+    <div class="layer" id="mountains"></div>
+    <div id="forestLayers"></div>
+    <div class="layer cloud-pass" id="cloudPass"></div>
+    <div class="layer rays" id="rays"></div>
+    <canvas id="fireflies"></canvas>
+    <div class="vignette"></div>
+  </div>
 
-    <div>
-        <h3>Credit Card Fraud Detection</h3>
-        <p>Developed a supervised learning model to identify fraudulent credit card transactions  
- and Implemented multiple classification algorithms to optimize detection accuracy  
-Worked with imbalanced datasets and applied suitable sampling techniques </p>
-        <a href="https://github.com/Shanmuk05/credit-card-fraud-detection">View Code</a>
-    </div>
+  <!-- the eagle that leads the dive -->
+  <div id="eagle" aria-hidden="true">
+    <svg viewBox="-210 -70 420 160" class="eagle-svg">
+      <defs>
+        <linearGradient id="wingGrad" x1="0" x2="1">
+          <stop offset="0" stop-color="#3b2416"/>
+          <stop offset=".7" stop-color="#24150c"/>
+          <stop offset="1" stop-color="#120a05"/>
+        </linearGradient>
+      </defs>
+      <g class="wing wing-l">
+        <path transform="scale(-1,1)" d="M8,-4 C40,-24 80,-34 120,-30 C150,-27 172,-20 196,-8 L184,-3 L198,4 L181,7 L192,14 L172,14 L178,22 L156,19 C120,20 70,22 8,16 Z" fill="url(#wingGrad)"/>
+      </g>
+      <g class="wing wing-r">
+        <path d="M8,-4 C40,-24 80,-34 120,-30 C150,-27 172,-20 196,-8 L184,-3 L198,4 L181,7 L192,14 L172,14 L178,22 L156,19 C120,20 70,22 8,16 Z" fill="url(#wingGrad)"/>
+      </g>
+      <path d="M-14,30 L-22,74 L-8,66 L0,78 L8,66 L22,74 L14,30 Z" fill="#f4efe6"/>
+      <ellipse cx="0" cy="8" rx="17" ry="34" fill="#2b190d"/>
+      <circle cx="0" cy="-28" r="13" fill="#f7f3ea"/>
+      <path d="M-5,-38 L5,-38 L0,-52 Z" fill="#f2b632"/>
+    </svg>
+  </div>
 
+  <!-- altitude meter / page navigation -->
+  <nav id="altimeter" aria-label="Sections">
+    <div class="alt-readout"><span id="altValue">12,000</span><small>ft</small></div>
+    <ol class="alt-track" id="altTrack"></ol>
+  </nav>
+
+  <header class="topbar">
+    <a href="#sky-section" class="brand"><span class="brand-mark">ASK</span><span class="brand-name">Sai Kiran</span></a>
+    <a class="btn btn-ghost btn-sm" href="assets/Atchutha_Sai_Kiran_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+  </header>
+
+  <main>
+    <!-- 1. SKY -->
+    <section id="sky-section" class="panel hero" data-alt="12000" data-label="Sky">
+      <div class="hero-inner">
+        <p class="kicker reveal"><span class="dot"></span> Altitude 12,000 ft · Dawn</p>
+        <h1 class="hero-name reveal">Atchutha<br /><em>Sai Kiran</em></h1>
+        <p class="hero-role reveal">Analyst <span class="amp">with</span> AI</p>
+        <p class="hero-tag reveal">An eagle's view of the data first, then down to the detail.<br />I turn raw data into decisions and build AI that can see, read and reason.</p>
+        <div class="hero-cta reveal">
+          <a href="#about" class="btn btn-primary">Begin the descent <span class="arrow">↓</span></a>
+          <a href="assets/Atchutha_Sai_Kiran_Resume.pdf" class="btn btn-ghost" download>Download résumé</a>
+        </div>
+      </div>
+      <div class="scroll-hint"><span></span>scroll to dive</div>
+    </section>
+
+    <!-- 2. ABOVE THE CLOUDS — ABOUT -->
+    <section id="about" class="panel" data-alt="8000" data-label="Clouds">
+      <div class="wrap about-grid">
+        <div class="portrait reveal">
+          <div class="portrait-ring"></div>
+          <img src="assets/sai-kiran.jpg" alt="Portrait of Atchutha Sai Kiran" loading="lazy" />
+          <span class="portrait-badge">B.Tech CSE · AI</span>
+        </div>
+        <div class="glass reveal">
+          <p class="section-tag">01 · Through the clouds</p>
+          <h2>The view from above</h2>
+          <p>I'm <strong>Atchutha Sai Kiran</strong>, a Computer Science &amp; Engineering graduate with an <strong>AI specialization</strong> from Parul University. My work combines <strong>business analysis</strong> and <strong>artificial intelligence</strong>.</p>
+          <p>I start by framing the business question. Then I use Python, SQL, statistics and machine learning to answer it, whether that's hypothesis-testing 10,800+ bike-rental records, building a CLIP-powered visual search engine, or running a local RAG system that answers questions from company documents.</p>
+          <div class="stats">
+            <div class="stat"><b data-count="12" id="repoCount">12</b><span>GitHub repos</span></div>
+            <div class="stat"><b data-count="1000" data-suffix="+">1000+</b><span>annotation tasks</span></div>
+            <div class="stat"><b data-count="95" data-suffix="%">95%</b><span>QA quality score</span></div>
+            <div class="stat"><b data-count="90" data-prefix="~" data-suffix="%">~90%</b><span>visual-match accuracy</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CANOPY — EXPERIENCE -->
+    <section id="experience" class="panel" data-alt="3000" data-label="Canopy">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="section-tag">02 · Breaking through the canopy</p>
+          <h2>Where I've flown</h2>
+        </div>
+        <div class="timeline">
+          <article class="glass t-item reveal">
+            <div class="t-when">Apr 2026 – Jul 2026</div>
+            <h3>Business Analyst Intern</h3>
+            <p class="t-org">O2 Saver Private Limited</p>
+            <ul>
+              <li>Gathered and documented business requirements from stakeholders to support process and reporting improvements.</li>
+              <li>Ran outreach conversations with prospective customers to understand their needs and pain points as part of business development.</li>
+            </ul>
+            <div class="chips"><span>Requirements</span><span>Stakeholders</span><span>Reporting</span><span>Business Dev</span></div>
+          </article>
+          <article class="glass t-item reveal">
+            <div class="t-when">Feb 2026 – Mar 2026</div>
+            <h3>Data Annotation Freelancer</h3>
+            <p class="t-org">Handigital</p>
+            <ul>
+              <li>Followed structured QA workflows across <strong>1,000+ annotation tasks</strong>, keeping a <strong>95% quality score</strong> for LLM training pipelines.</li>
+              <li>Applied consistent classification and validation standards, working independently against defined quality benchmarks.</li>
+            </ul>
+            <div class="chips"><span>LLM Data</span><span>QA Workflows</span><span>Classification</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TREETOPS — SKILLS -->
+    <section id="skills" class="panel" data-alt="1200" data-label="Treetops">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="section-tag">03 · Gliding over the treetops</p>
+          <h2>What I work with</h2>
+        </div>
+        <div class="skill-grid" id="skillGrid"></div>
+      </div>
+    </section>
+
+    <!-- 5. INSIDE THE FOREST — PROJECTS -->
+    <section id="projects" class="panel" data-alt="300" data-label="Forest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="section-tag">04 · Inside the forest</p>
+          <h2>Things I've built</h2>
+          <p class="section-sub">Every project here comes from <a href="https://github.com/Shanmuk05" target="_blank" rel="noopener">my GitHub</a>. Open the live demos, read the analysis notebooks, or browse the code.</p>
+        </div>
+        <div class="filters reveal" id="filters" role="tablist"></div>
+        <div class="project-grid" id="projectGrid"></div>
+      </div>
+    </section>
+
+    <!-- 6. UNDERGROWTH — EDUCATION & ACHIEVEMENTS -->
+    <section id="education" class="panel" data-alt="40" data-label="Undergrowth">
+      <div class="wrap edu-grid">
+        <div class="glass reveal">
+          <p class="section-tag">05 · Roots</p>
+          <h2>Education</h2>
+          <div class="edu">
+            <div class="edu-year">2026</div>
+            <div>
+              <h3>B.Tech, Computer Science &amp; Engineering</h3>
+              <p class="t-org">AI Specialization · Parul University, Gujarat</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass reveal">
+          <p class="section-tag">06 · Trophies on the forest floor</p>
+          <h2>Certifications</h2>
+          <ul class="certs">
+            <li><span class="leaf">❦</span>SQL Certification <em>Scaler Academy</em></li>
+            <li><span class="leaf">❦</span>Python Libraries Certification <em>Scaler Academy</em></li>
+            <li><span class="leaf">❦</span>Data Analytics Essentials <em>Cisco Networking Academy</em></li>
+            <li><span class="leaf">❦</span>Business Analyst Internship Certificate <em>O2 Saver Pvt. Ltd.</em></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. FOREST FLOOR — CONTACT -->
+    <section id="contact" class="panel contact" data-alt="0" data-label="Landing">
+      <div class="wrap contact-inner reveal">
+        <p class="section-tag">07 · Touchdown · 0 ft</p>
+        <h2 class="contact-title">You've reached the forest floor.<br /><em>Let's build something together.</em></h2>
+        <p class="section-sub">Open to Data Analyst, Business Analyst and AI/ML roles, internships and collaborations.</p>
+        <a class="mail" href="mailto:saikiranatchutha05@gmail.com">saikiranatchutha05@gmail.com</a>
+        <div class="socials">
+          <a class="btn btn-primary" href="mailto:saikiranatchutha05@gmail.com">Send an email</a>
+          <a class="btn btn-ghost" href="https://linkedin.com/in/atchutha-sai-kiran-b74899233" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="btn btn-ghost" href="https://github.com/Shanmuk05" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn btn-ghost" href="assets/Atchutha_Sai_Kiran_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+        </div>
+        <button class="btn btn-ghost btn-sm ascend" id="ascend">↑ Fly back to the sky</button>
+      </div>
+      <footer class="foot">© <span id="year"></span> Atchutha Sai Kiran · Hand-built, no templates · Hosted on GitHub Pages</footer>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
