@@ -475,9 +475,11 @@
   function frame(t) {
     requestAnimationFrame(frame);
     const d = depth();
+    window.__d = d;
     // nothing moves once the eagle is gone, the page is still and no fireflies are out
     if (Math.abs(d - lastD) < 1e-4 && d > 1.2 && !fliesOn) { lastY = scrollY; lastT = t; return; }
     lastD = d;
+    window.__d = d;
     // sky
     sky.style.background = `linear-gradient(180deg, ${keyColor(SKY.top, d)} 0%, ${keyColor(SKY.mid, d)} 52%, ${keyColor(SKY.bot, d)} 100%)`;
     themeMeta.content = keyColor(SKY.top, d);
