@@ -278,6 +278,7 @@
     const cat = CATEGORIES[p.cat] || CATEGORIES.dev;
     const c = el('article', 'glass project reveal');
     c.dataset.cat = p.cat;
+    c.dataset.repo = p.repo;
     const links = [];
     if (p.live) links.push(`<a class="live" href="${p.live}" target="_blank" rel="noopener">Live demo</a>`);
     if (p.analysis) links.push(`<a href="${p.analysis}" target="_blank" rel="noopener">📓 View analysis ↗</a>`);
@@ -350,6 +351,17 @@
         const when = new Date(r.pushed_at).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
         const meta = `${r.language ? '● ' + r.language + ' · ' : ''}updated ${when}${r.stargazers_count ? ' · ★ ' + r.stargazers_count : ''}`;
         document.querySelectorAll(`[data-meta="${CSS.escape(r.name)}"]`).forEach(m => m.textContent = meta);
+        // once a repo has a homepage (i.e. it's deployed), light up a Live demo
+        // button on its existing card automatically — no code change needed
+        if (r.homepage && known.has(r.name)) {
+          grid.querySelectorAll(`.project[data-repo="${CSS.escape(r.name)}"]`).forEach(cardEl => {
+            const links = cardEl.querySelector('.p-links');
+            if (links && !links.querySelector('.live') && !links.querySelector('[href*="nbviewer"]')) {
+              const a = el('a', 'live'); a.href = r.homepage; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Live demo';
+              links.insertBefore(a, links.firstChild);
+            }
+          });
+        }
         if (!known.has(r.name)) {
           // a new repo, so it shows up automatically
           const lang = (r.language || '').toLowerCase();
