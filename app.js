@@ -313,7 +313,7 @@
   let eagleBank = 0, eagleW = 0;
 
   /* ----- eagle cry sound (unlocked on first interaction; mutable) ----- */
-  const cry = $('#eaglecry'); if (cry) cry.volume = 0.42;
+  const cry = $('#eaglecry'); if (cry) cry.volume = 0.55;
   const soundBtn = $('#soundBtn');
   let soundOn = true; try { soundOn = localStorage.getItem('eagleSound') !== 'off'; } catch (e) {}
   let audioUnlocked = false, lastCry = 0;
