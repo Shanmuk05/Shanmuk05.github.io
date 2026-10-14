@@ -35,6 +35,10 @@
     <div class="vignette"></div>
   </div>
 
+  <!-- a real eagle (transparent cut-out) that flies with you down the pages -->
+  <img id="flyeagle" src="assets/eagle-fly.png" alt="" aria-hidden="true" />
+  <audio id="eaglecry" src="assets/eagle-cry.mp3" preload="auto"></audio>
+
   <!-- altitude meter / page navigation -->
   <nav id="altimeter" aria-label="Sections">
     <div class="alt-readout"><span id="altValue">12,000</span><small>ft</small></div>
@@ -43,7 +47,10 @@
 
   <header class="topbar">
     <a href="#sky-section" class="brand"><span class="brand-mark">ASK</span><span class="brand-name">Sai Kiran</span></a>
-    <a class="btn btn-ghost btn-sm" href="assets/Atchutha_Sai_Kiran_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    <div class="topbar-right">
+      <button id="soundBtn" class="btn btn-ghost btn-sm sound-toggle" type="button" aria-label="Toggle eagle sound" title="Eagle sound">🔊</button>
+      <a class="btn btn-ghost btn-sm" href="assets/Atchutha_Sai_Kiran_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </div>
   </header>
 
   <main>

@@ -297,11 +297,50 @@
   const THEME = ['#2a4a63', '#4a6076', '#2e4a39', '#28402f', '#132418', '#0c1a12', '#070f0b'];
   const themeMeta = document.querySelector('meta[name="theme-color"]');
 
+  /* ----- the real eagle that flies with you down the pages ----- */
+  const flyEagle = $('#flyeagle');
+  // screen anchors per section (% of viewport), zig-zagging so it crosses the view
+  const EAGLE_ANCHORS = [
+    { x: 72, y: 38 }, // 0 hero (hidden — the hero video already has the eagle)
+    { x: 15, y: 13 }, // 1 clouds
+    { x: 76, y: 18 }, // 2 canopy
+    { x: 22, y: 24 }, // 3 treetops
+    { x: 75, y: 20 }, // 4 forest
+    { x: 20, y: 22 }, // 5 undergrowth
+    { x: 80, y: 56 }, // 6 landing (settles into the undergrowth, right of the text)
+  ];
+  const eaglePos = { x: EAGLE_ANCHORS[0].x, y: EAGLE_ANCHORS[0].y };
+  let eagleBank = 0, eagleW = 0;
+
+  /* ----- eagle cry sound (unlocked on first interaction; mutable) ----- */
+  const cry = $('#eaglecry'); if (cry) cry.volume = 0.42;
+  const soundBtn = $('#soundBtn');
+  let soundOn = true; try { soundOn = localStorage.getItem('eagleSound') !== 'off'; } catch (e) {}
+  let audioUnlocked = false, lastCry = 0;
+  const paintSoundBtn = () => { if (!soundBtn) return; soundBtn.textContent = soundOn ? '🔊' : '🔇'; soundBtn.classList.toggle('off', !soundOn); };
+  function playCry(force) {
+    if (!cry || !soundOn || !audioUnlocked) return;
+    const now = performance.now();
+    if (!force && now - lastCry < 4200) return;
+    lastCry = now;
+    try { cry.currentTime = 0; cry.play().catch(() => {}); } catch (e) {}
+  }
+  function unlockAudio() { if (audioUnlocked) return; audioUnlocked = true; playCry(true); }
+  ['pointerdown', 'touchstart', 'keydown'].forEach(ev => addEventListener(ev, unlockAudio, { once: true, passive: true }));
+  addEventListener('scroll', () => { if (!audioUnlocked) { audioUnlocked = true; playCry(true); } }, { once: true, passive: true });
+  if (soundBtn) soundBtn.onclick = () => {
+    soundOn = !soundOn; try { localStorage.setItem('eagleSound', soundOn ? 'on' : 'off'); } catch (e) {}
+    paintSoundBtn();
+    if (soundOn) { audioUnlocked = true; lastCry = 0; playCry(true); } else if (cry) { try { cry.pause(); } catch (e) {} }
+  };
+  paintSoundBtn();
+  let lastActive = -1;
+
   // honour reduced-motion / data-saver: freeze the video on its poster frame
   if ((reduced || saveData) && vid) { try { vid.removeAttribute('autoplay'); vid.pause(); vid.load(); } catch (e) {} }
 
-  let tops = [], vh = innerHeight, lastD = -1;
-  const measure = () => { vh = innerHeight; tops = sections.map(s => s.offsetTop); sizeCanvas(); lastD = -1; };
+  let tops = [], vh = innerHeight, vw = innerWidth, lastD = -1;
+  const measure = () => { vh = innerHeight; vw = innerWidth; tops = sections.map(s => s.offsetTop); eagleW = flyEagle ? flyEagle.offsetWidth : 230; sizeCanvas(); lastD = -1; };
 
   function depth() {
     const y = scrollY, max = document.documentElement.scrollHeight - vh;
@@ -338,7 +377,34 @@
       altValue.textContent = Math.round(alt).toLocaleString('en-US');
       const active = Math.min(sections.length - 1, Math.round(d));
       ticks.forEach((a, k) => a.classList.toggle('active', k === active));
+      // the eagle screeches as it arrives over a new section
+      if (active !== lastActive) { if (lastActive >= 0 && active >= 1) playCry(); lastActive = active; }
     }
+
+    // the flying eagle glides toward its per-section anchor, banking and bobbing
+    if (flyEagle) {
+      const i = Math.floor(clamp(d, 0, EAGLE_ANCHORS.length - 1));
+      const j = Math.min(i + 1, EAGLE_ANCHORS.length - 1);
+      const f = clamp(d - i, 0, 1);
+      const tx = lerp(EAGLE_ANCHORS[i].x, EAGLE_ANCHORS[j].x, f);
+      const ty = lerp(EAGLE_ANCHORS[i].y, EAGLE_ANCHORS[j].y, f);
+      const px = eaglePos.x; eaglePos.x += (tx - eaglePos.x) * 0.05; eaglePos.y += (ty - eaglePos.y) * 0.05;
+      const vxp = eaglePos.x - px;                // horizontal drift → facing + bank
+      const face = (EAGLE_ANCHORS[j].x - EAGLE_ANCHORS[i].x) >= 0 ? 1 : -1;
+      const targetBank = clamp(vxp * 2.2, -14, 14);
+      eagleBank += (targetBank - eagleBank) * 0.06;
+      const now = performance.now();
+      const bob = reduced ? 0 : Math.sin(now / 900) * 1.1;         // gentle rise/fall
+      const flap = reduced ? 1 : 1 + Math.sin(now / 320) * 0.05;   // subtle wing-beat
+      const op = key([[0, 0], [0.55, 0], [1.05, 1]], d);           // hero shows the video eagle; cut-out appears after
+      flyEagle.style.opacity = op.toFixed(3);
+      if (op > 0.002) {
+        const xpx = eaglePos.x / 100 * vw - eagleW / 2;
+        const ypx = (eaglePos.y + bob) / 100 * vh;
+        flyEagle.style.transform = `translate(${xpx.toFixed(1)}px, ${ypx.toFixed(1)}px) rotate(${eagleBank.toFixed(2)}deg) scaleX(${face}) scaleY(${flap.toFixed(3)})`;
+      }
+    }
+
     // fireflies on the forest floor
     const ffo = key([[4.2, 0], [5, .5], [5.8, 1]], d);
     cv.style.opacity = ffo;
