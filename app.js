@@ -325,9 +325,14 @@
     lastCry = now;
     try { cry.currentTime = 0; cry.play().catch(() => {}); } catch (e) {}
   }
-  function unlockAudio() { if (audioUnlocked) return; audioUnlocked = true; playCry(true); }
-  ['pointerdown', 'touchstart', 'keydown'].forEach(ev => addEventListener(ev, unlockAudio, { once: true, passive: true }));
-  addEventListener('scroll', () => { if (!audioUnlocked) { audioUnlocked = true; playCry(true); } }, { once: true, passive: true });
+  // Audio can only start from a real user gesture (a click/tap/key — NOT a
+  // scroll). On the first such gesture we actually play the cry; only if that
+  // succeeds do we mark it unlocked, so later section screeches are allowed.
+  function unlockAudio() {
+    if (audioUnlocked || !cry || !soundOn) return;
+    try { cry.currentTime = 0; cry.play().then(() => { audioUnlocked = true; lastCry = performance.now(); }).catch(() => {}); } catch (e) {}
+  }
+  ['pointerdown', 'touchstart', 'keydown', 'click'].forEach(ev => addEventListener(ev, unlockAudio, { capture: true, passive: true }));
   if (soundBtn) soundBtn.onclick = () => {
     soundOn = !soundOn; try { localStorage.setItem('eagleSound', soundOn ? 'on' : 'off'); } catch (e) {}
     paintSoundBtn();
