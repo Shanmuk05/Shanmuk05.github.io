@@ -19,8 +19,9 @@
   const PROJECTS = [
     { repo: 'visual_product_matcher', title: 'Visual Product Matcher', cat: 'ai', emoji: '🔍', featured: true,
       desc: "Shoppers often have a picture but no keyword. This Streamlit app embeds an uploaded image with OpenAI's CLIP (ViT-B/32) and uses cosine similarity to find the most visually similar products in a catalog.",
-      impact: '~90% match accuracy from a single uploaded image, so products are easier to find',
-      tech: ['Python', 'OpenAI CLIP', 'PyTorch', 'Streamlit', 'scikit-learn'] },
+      impact: '~90% match accuracy from a single uploaded image — now runs live, entirely in your browser',
+      tech: ['Python', 'OpenAI CLIP', 'PyTorch', 'Streamlit', 'transformers.js'],
+      live: 'https://shanmuk05.github.io/visual_product_matcher/' },
     { repo: 'Advanced-RAG-AI-project-', title: 'Advanced RAG Document Assistant', cat: 'ai', emoji: '🧠', featured: true,
       desc: 'A fully local retrieval-augmented generation system that answers questions about company documentation. Pipeline: chunking (600 / 120 overlap), MiniLM embeddings, ChromaDB with BM25, cross-encoder reranking, then Llama 3 via Ollama.',
       impact: 'Private, on-device answers grounded in reranked context',
