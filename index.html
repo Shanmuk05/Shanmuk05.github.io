@@ -17,42 +17,22 @@
 </head>
 <body>
 
-  <!-- ============ THE WORLD (fixed scenery, driven by scroll) ============ -->
-  <div id="world" aria-hidden="true">
-    <div class="sky" id="sky"></div>
-    <div class="stars" id="stars"></div>
-    <div class="sun" id="sun"><div class="sun-core"></div></div>
-    <div class="layer drift-clouds" id="driftClouds"></div>
-    <div class="layer birds" id="birds"></div>
-    <div class="layer" id="mountains"></div>
-    <div id="forestLayers"></div>
-    <div class="layer cloud-pass" id="cloudPass"></div>
-    <div class="layer rays" id="rays"></div>
+  <!-- ============ REAL ATMOSPHERE — photo/video scenery, driven by scroll ============ -->
+  <div id="scenes" aria-hidden="true">
+    <div class="scene" data-i="0">
+      <video id="skyvid" class="scene-media" autoplay muted loop playsinline preload="auto" poster="assets/eagle-poster.jpg">
+        <source src="assets/eagle-sky.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="scene" data-i="1" style="background-image:url(assets/bg-clouds.jpg)"></div>
+    <div class="scene" data-i="2" style="background-image:url(assets/bg-canopy.jpg)"></div>
+    <div class="scene" data-i="3" style="background-image:url(assets/bg-canopy.jpg);background-position:50% 18%"></div>
+    <div class="scene" data-i="4" style="background-image:url(assets/bg-forest.jpg)"></div>
+    <div class="scene" data-i="5" style="background-image:url(assets/bg-floor.jpg)"></div>
+    <div class="scene" data-i="6" style="background-image:url(assets/bg-floor.jpg);background-position:50% 82%"></div>
     <canvas id="fireflies"></canvas>
+    <div class="world-tint"></div>
     <div class="vignette"></div>
-  </div>
-
-  <!-- the eagle that leads the dive -->
-  <div id="eagle" aria-hidden="true">
-    <svg viewBox="-210 -70 420 160" class="eagle-svg">
-      <defs>
-        <linearGradient id="wingGrad" x1="0" x2="1">
-          <stop offset="0" stop-color="#3b2416"/>
-          <stop offset=".7" stop-color="#24150c"/>
-          <stop offset="1" stop-color="#120a05"/>
-        </linearGradient>
-      </defs>
-      <g class="wing wing-l">
-        <path transform="scale(-1,1)" d="M8,-4 C40,-24 80,-34 120,-30 C150,-27 172,-20 196,-8 L184,-3 L198,4 L181,7 L192,14 L172,14 L178,22 L156,19 C120,20 70,22 8,16 Z" fill="url(#wingGrad)"/>
-      </g>
-      <g class="wing wing-r">
-        <path d="M8,-4 C40,-24 80,-34 120,-30 C150,-27 172,-20 196,-8 L184,-3 L198,4 L181,7 L192,14 L172,14 L178,22 L156,19 C120,20 70,22 8,16 Z" fill="url(#wingGrad)"/>
-      </g>
-      <path d="M-14,30 L-22,74 L-8,66 L0,78 L8,66 L22,74 L14,30 Z" fill="#f4efe6"/>
-      <ellipse cx="0" cy="8" rx="17" ry="34" fill="#2b190d"/>
-      <circle cx="0" cy="-28" r="13" fill="#f7f3ea"/>
-      <path d="M-5,-38 L5,-38 L0,-52 Z" fill="#f2b632"/>
-    </svg>
   </div>
 
   <!-- altitude meter / page navigation -->
@@ -208,6 +188,5 @@
   </main>
 
   <script src="app.js"></script>
-  <script src="eagle3d.js"></script>
 </body>
 </html>
