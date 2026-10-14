@@ -6,10 +6,10 @@ GitHub repo has a **homepage URL** set. So the flow for every project is:
 
 | Project | Host | Status | Needs |
 |---|---|---|---|
-| Visual Product Matcher | Hugging Face Spaces | ✅ ready to deploy | HF account |
+| Visual Product Matcher | GitHub Pages (in-browser CLIP) | ✅ **LIVE** | — done, no account |
 | TaskFlow API + client | Render (Blueprint) | ✅ ready to deploy | Render account |
 | Lyftr webhook service | Render (Blueprint) | ✅ ready to deploy | Render account |
-| Car Price (API + React) | Render (Blueprint) | ✅ ready to deploy | Render account |
+| Car Price | GitHub Pages (in-browser ML) | ✅ **LIVE** | — done, no account |
 | Finance backend | Render + MongoDB Atlas | ⏳ security fixed; needs DB | Atlas account + rotate secret |
 | Advanced RAG | Render/HF + Groq | ⏳ needs LLM swap | Groq API key |
 | Peblo Quiz Engine | Render/HF + Groq | ⏳ needs LLM swap | Groq API key |
